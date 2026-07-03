@@ -11,6 +11,11 @@
   color: #222;
 }
 
+.user-info .budget-total {
+    font-weight: 600;
+  color: #222;
+}
+
 .user-info form {
   display: flex;
   align-items: center;

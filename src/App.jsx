@@ -16,7 +16,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [totals, setTotals] = useState(null);
   const [itemToEdit, setItemToEdit] = useState(null);
-  const [editedItems, setEditedItems] = useState([]);
+  const [remainingBudget, setRemainingBudget] = useState(0);
 
   useEffect(() => {
     if (!user) {
@@ -42,32 +42,14 @@ function App() {
         category_map[item.category.subcategory] + Number(item.amount);
     }
     setTotals(category_map);
+    setRemainingBudget(
+      Number(user?.income) -
+        (category_map.needs + category_map.wants + category_map.savings),
+    );
   }, [budgetItems]);
-
-  useEffect(() => {
-    console.log(editedItems);
-  }, [editedItems]);
 
   function addBudgetItem(newItem) {
     setBudgetItems((prevItems) => [...prevItems, newItem]);
-    totals[newItem.category.subcategory] =
-      Number(totals[newItem.category.subcategory]) + Number(newItem.amount);
-  }
-
-  function addEditedItem(editedItem) {
-    setBudgetItems((prevItems) =>
-      prevItems.map((item) => (item.id === editedItem.id ? editedItem : item)),
-    );
-    setEditedItems((prevItems) => {
-      const exists = prevItems.some((item) => item.id === editedItem.id);
-      if (exists) {
-        return prevItems.map((item) =>
-          item.id === editedItem.id ? editedItem : item,
-        );
-      } else {
-        return [...prevItems, editedItem];
-      }
-    });
   }
 
   function handleEditItem(idx) {
@@ -90,50 +72,53 @@ function App() {
       })
       .then(() => {
         setBudgetItems((prevItems) =>
-          prevItems.filter((item) => item.id != itemToDelete.id)
-        );
-        setEditedItems((prevItems) =>
-            prevItems.filter((item) => item.id != itemToDelete.id)
+          prevItems.filter((item) => item.id != itemToDelete.id),
         );
       })
       .catch((err) => {
-      console.error("Error deleting item:", err);
-    });
+        console.error("Error deleting item:", err);
+      });
   }
 
-  async function saveEditedItems() {
-    try {
-      const responses = await Promise.all(
-        editedItems.map(async (item) => {
-          const response = await fetch("/api/expenses", {
-            method: "PUT",
-            headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(item),
-          });
-
-          if (!response.ok) {
-            throw new Error(`Failed to updated item ${item.id}`);
-          }
-
-          return response.json()
-        })
-      )
-      setEditedItems([])
-    } catch (error) {
-      console.error('An update failed:', error);
-    }
+  function saveEditedItem(item) {
+    fetch("/api/expenses", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error(`Failed to updated item ${item.id}`);
+      })
+      .then((data) => {
+        setBudgetItems((prevItems) =>
+          prevItems.map((item) => (item.id === data.id ? data : item)),
+        );
+      });
   }
 
   return (
     <div className="App">
       <LoginSignup />
-      {user && <p className="greeting">Hello {user.username}</p>}
-      {user && <UserInfo user={user} updateIncome={updateIncome} />}
+      {user && <p className="greeting">Hello, {user.username}!</p>}
+      {user && (
+        <UserInfo
+          user={user}
+          updateIncome={updateIncome}
+          remainingBudget={remainingBudget}
+        />
+      )}
       {user && totals && <PercentDisplay totals={totals} user={user} />}
-      {user && editedItems && <button className="btn" onClick={saveEditedItems}>Save Edited Budget</button>}
-      {user && budgetItems && (
+      {/* {user && editedItems.length > 0 && (
+        <button className="btn" onClick={saveEditedItems}>
+          Save Budget Changes
+        </button>
+      )} */}
+      {user && budgetItems.length > 0 && (
         <BudgetTable
           budgetItems={budgetItems}
           addBudgetItem={addBudgetItem}
@@ -149,6 +134,7 @@ function App() {
       {user && formOpen && (
         <BudgetItemForm
           addBudgetItem={addBudgetItem}
+          remainingBudget={remainingBudget}
           closeForm={() => {
             setFormOpen(false);
           }}
@@ -156,7 +142,8 @@ function App() {
       )}
       {user && modalOpen && (
         <Modal
-          addEditedItem={addEditedItem}
+          saveEditedItem={saveEditedItem}
+          remainingBudget={remainingBudget}
           closeModal={() => {
             setModalOpen(false);
           }}

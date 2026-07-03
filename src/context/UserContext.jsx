@@ -11,14 +11,12 @@ export function UserProvider({ children }) {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ username }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        throw new Error("Signup failed");
-      })
-      // .then((data) => setUser(data));
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      throw new Error("Signup failed");
+    });
   }
 
   function login(username) {

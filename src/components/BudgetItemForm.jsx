@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "../styles/BudgetItemForm.css";
 
-function BudgetItemForm({ addBudgetItem, closeForm }) {
+function BudgetItemForm({ addBudgetItem, closeForm, remainingBudget }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("0");
@@ -97,14 +97,18 @@ function BudgetItemForm({ addBudgetItem, closeForm }) {
             </select>
           </div>
           <div className="form-group">
+            <label htmlFor="amount">Amount</label>
             <input
-              type="text"
-              placeholder="Amount"
+              type="number"
+              min="0"
+              max={remainingBudget}
+              step="0.01"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
           <div className="form-group">
+            <label htmlFor="isFixed">Is Fixed</label>
             <input
               type="checkbox"
               checked={isFixed}

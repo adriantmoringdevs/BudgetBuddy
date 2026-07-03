@@ -1,6 +1,7 @@
 import "../styles/PercentDisplay.css";
 
 function PercentDisplay({ totals, user }) {
+    console.log(totals)
   function convertDecimal(num) {
     return `${(num * 100).toFixed(1)}%`;
   }

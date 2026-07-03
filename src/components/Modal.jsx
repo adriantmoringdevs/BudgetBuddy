@@ -1,7 +1,7 @@
 import "../styles/Modal.css";
 import { useState, useEffect } from "react";
 
-function Modal({ closeModal, addEditedItem, itemToEdit }) {
+function Modal({ closeModal, saveEditedItem, itemToEdit, remainingBudget }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
@@ -50,7 +50,7 @@ function Modal({ closeModal, addEditedItem, itemToEdit }) {
     itemToEdit.category.subcategory = categories[category]
     itemToEdit.amount = amount;
     itemToEdit.is_fixed = isFixed
-    addEditedItem(itemToEdit);
+    saveEditedItem(itemToEdit);
     closeModal();
   }
 
@@ -93,8 +93,10 @@ function Modal({ closeModal, addEditedItem, itemToEdit }) {
           <div className="form-group">
             <label htmlFor="amount">Amount</label>
             <input
-              type="text"
-              placeholder="amount"
+              type="number"
+              min="0"
+              max={remainingBudget}
+              step="0.01"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
@@ -107,10 +109,11 @@ function Modal({ closeModal, addEditedItem, itemToEdit }) {
               checked={isFixed}
               onChange={handleCheckBoxChange}
             />
+            </div>
             <button type="submit" className="btn">
               Save
             </button>
-          </div>
+          
         </form>
       </div>
     </div>
