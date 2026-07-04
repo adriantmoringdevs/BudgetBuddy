@@ -11,12 +11,19 @@ export function UserProvider({ children }) {
       headers: { "Content-Type": "application/json" },
       credentials: "include",
       body: JSON.stringify({ username }),
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      throw new Error("Signup failed");
-    });
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        throw new Error("Signup failed");
+      })
+      .then((data) => {
+        return {
+          success: true,
+          message: `Account for ${data.username} created succesfully!`,
+        };
+      });
   }
 
   function login(username) {

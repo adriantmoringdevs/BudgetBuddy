@@ -29,7 +29,6 @@ class Login(Resource):
         if user:
             session['user_id'] = user.id
             session['username'] = user.username
-            print(user.username)
             return UserSchema().dump(user), 200
         
         return {'error': 'User not Found'}, 404 

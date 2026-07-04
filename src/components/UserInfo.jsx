@@ -17,6 +17,7 @@ function UserInfo({ user, updateIncome, remainingBudget }) {
       <div className="income">{user.income ? `Income: $${user.income}` : `Income: $0`}</div>
       <div className="budget-total">Remaining Total Budget: ${remainingBudget}</div>
       <form onSubmit={handleSubmit}>
+        
         <input
             type="number"
             min="0"
@@ -25,7 +26,7 @@ function UserInfo({ user, updateIncome, remainingBudget }) {
           onChange={(e) => setIncome(e.target.value)}
         />
         <button className="btn" type="submit">
-          Submit new income for {user.username}
+          Set Income
         </button>
       </form>
     </div>

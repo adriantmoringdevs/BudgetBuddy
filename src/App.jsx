@@ -128,7 +128,7 @@ function App() {
       )}
       {user && (
         <button className="btn" onClick={() => setFormOpen(true)}>
-          Add
+          Add Budget Item
         </button>
       )}
       {user && formOpen && (
