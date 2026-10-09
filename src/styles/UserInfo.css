@@ -1,35 +1,66 @@
 .user-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.3fr;
+  gap: var(--space-5);
+}
+
+.stat-card {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  min-height: 130px;
 }
 
-.user-info .income {
-  font-weight: 600;
-  color: #222;
+.stat-amount {
+  font-size: 36px;
+  line-height: 44px;
+  color: var(--ink);
 }
 
-.user-info .budget-total {
-    font-weight: 600;
-  color: #222;
+.stat-card-hero {
+  background-color: var(--evergreen);
+  border-color: var(--evergreen);
 }
 
-.user-info form {
+.stat-card-hero.over {
+  background-color: var(--clay);
+  border-color: var(--clay);
+}
+
+.stat-card-hero .label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.stat-card-hero .stat-amount {
+  color: #fff;
+}
+
+.income-form {
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  gap: 12px;
 }
 
-.user-info input {
-  border: 1px solid black;
-  border-radius: 0.3rem;
-  padding: 0.3rem;
-  font-size: 1rem;
+.income-form .input {
+  flex: 1;
+  min-width: 0;
 }
 
-.user-info .btn {
-  margin-top: 0;
+@media (max-width: 960px) {
+  .user-info {
+    grid-template-columns: 1fr 1fr;
+  }
+  .user-info > :last-child {
+    grid-column: 1 / -1;
+  }
 }
 
+@media (max-width: 600px) {
+  .user-info {
+    grid-template-columns: 1fr;
+  }
+  .stat-amount {
+    font-size: 32px;
+    line-height: 38px;
+  }
+}

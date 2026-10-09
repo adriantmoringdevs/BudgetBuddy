@@ -1,6 +1,61 @@
+:root {
+  /* colour */
+  --evergreen: #328c6f;
+  --evergreen-dark: #174a39;
+  --marigold: #f2b84b;
+  --paper: #faf6ee;
+  --paper-deep: #ebe4d6;
+  --card: #ffffff;
+  --ink: #1d2a26;
+  --muted: #5b6b65;
+  --line: #e6dfd2;
+  --clay: #c8553d;
+  --needs-tint: #dce9e2;
+  --wants-tint: #fbe6b8;
+  --wants-strong: #b7801a;
+
+  /* type */
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* spacing */
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-7: 28px;
+
+  /* radius */
+  --radius-sm: 10px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+}
+
 * {
   box-sizing: border-box;
-  margin: 0px;
-  padding: 0px;
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
 }

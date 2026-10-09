@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/BudgetItemForm.css";
+import "../styles/Modal.css";
 
 function BudgetItemForm({ addBudgetItem, closeForm, remainingBudget }) {
   const [name, setName] = useState("");
@@ -63,31 +63,33 @@ function BudgetItemForm({ addBudgetItem, closeForm, remainingBudget }) {
 
   return (
     <div
-      className="form-container"
+      className="modal-container"
       onClick={(e) => {
-        if (e.target.className === "form-container") closeForm();
+        if (e.target === e.currentTarget) closeForm();
       }}
     >
-      <div className="form">
-        Add Budget Item
+      <div className="card modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h2 id="modal-title">Add budget item</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
+            <label className="label" htmlFor="item-name">Name</label>
             <input
+              id="item-name"
               type="text"
-              placeholder="Item Name"
+              placeholder="e.g. Rent"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="form-group">
-            <label>Choose Category</label>
+            <label className="label" htmlFor="category-select">Category</label>
             <select
               id="category-select"
               value={category}
               onChange={handleChange}
             >
               <option value="" disabled>
-                --Please choose a category--
+                Choose a category
               </option>
               {categories.map((cat, index) => (
                 <option key={index} value={cat}>
@@ -97,27 +99,35 @@ function BudgetItemForm({ addBudgetItem, closeForm, remainingBudget }) {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="amount">Amount</label>
+            <label className="label" htmlFor="amount">Amount</label>
             <input
+              id="amount"
               type="number"
               min="0"
               max={remainingBudget}
               step="0.01"
+              placeholder="$ 0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="isFixed">Is Fixed</label>
+          <div className="form-group checkbox-row">
             <input
+              id="isFixed"
               type="checkbox"
               checked={isFixed}
               onChange={handleCheckBoxChange}
             />
+            <label htmlFor="isFixed">Fixed amount each month</label>
           </div>
-          <button type="submit" className="btn">
-            Save
-          </button>
+          <div className="modal-actions">
+            <button type="button" className="btn btn-ghost" onClick={closeForm}>
+              Cancel
+            </button>
+            <button type="submit" className="btn">
+              Save
+            </button>
+          </div>
         </form>
       </div>
     </div>

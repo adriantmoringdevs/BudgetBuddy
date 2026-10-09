@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useUser } from "./context/UserContext";
+import "./App.css";
 import LoginSignup from "./components/LoginSignup";
+import AppHeader from "./components/AppHeader";
 import UserInfo from "./components/UserInfo";
 import PercentDisplay from "./components/PercentDisplay";
 import BudgetTable from "./components/BudgetTable";
 import BudgetItemForm from "./components/BudgetItemForm";
 import Modal from "./components/Modal";
-import "./App.css";
 
 function App() {
   const { user, updateIncome } = useUser();
@@ -101,37 +102,32 @@ function App() {
       });
   }
 
+  if (!user) {
+    return <LoginSignup />;
+  }
+
   return (
-    <div className="App">
-      <LoginSignup />
-      {user && <p className="greeting">Hello, {user.username}!</p>}
-      {user && (
+    <>
+      <AppHeader />
+      <main className="dashboard">
+        <h1 className="greeting">
+          Hello, <em>{user.username}</em>.
+        </h1>
+        <p className="subtitle">Here’s where your money is going this month.</p>
         <UserInfo
           user={user}
           updateIncome={updateIncome}
           remainingBudget={remainingBudget}
         />
-      )}
-      {user && totals && <PercentDisplay totals={totals} user={user} />}
-      {/* {user && editedItems.length > 0 && (
-        <button className="btn" onClick={saveEditedItems}>
-          Save Budget Changes
-        </button>
-      )} */}
-      {user && budgetItems.length > 0 && (
+        {totals && <PercentDisplay totals={totals} user={user} />}
         <BudgetTable
           budgetItems={budgetItems}
-          addBudgetItem={addBudgetItem}
           editItem={handleEditItem}
           deleteItem={handleDeleteItem}
+          openForm={() => setFormOpen(true)}
         />
-      )}
-      {user && (
-        <button className="btn" onClick={() => setFormOpen(true)}>
-          Add Budget Item
-        </button>
-      )}
-      {user && formOpen && (
+      </main>
+      {formOpen && (
         <BudgetItemForm
           addBudgetItem={addBudgetItem}
           remainingBudget={remainingBudget}
@@ -140,7 +136,7 @@ function App() {
           }}
         />
       )}
-      {user && modalOpen && (
+      {modalOpen && (
         <Modal
           saveEditedItem={saveEditedItem}
           remainingBudget={remainingBudget}
@@ -150,7 +146,7 @@ function App() {
           itemToEdit={itemToEdit !== null && budgetItems[itemToEdit]}
         />
       )}
-    </div>
+    </>
   );
 }
 

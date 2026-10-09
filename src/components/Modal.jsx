@@ -10,7 +10,7 @@ function Modal({ closeModal, saveEditedItem, itemToEdit, remainingBudget }) {
 
   const categories = {
     "Housing": "needs",
-    "Utilties": "needs",
+    "Utilities": "needs",
     "Groceries": "needs",
     "Transportation": "needs",
     "Insurance": "needs",
@@ -58,30 +58,31 @@ function Modal({ closeModal, saveEditedItem, itemToEdit, remainingBudget }) {
     <div
       className="modal-container"
       onClick={(e) => {
-        if (e.target.className === "modal-container") closeModal();
+        if (e.target === e.currentTarget) closeModal();
       }}
     >
-      <div className="modal">
+      <div className="card modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <h2 id="modal-title">Edit budget item</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Name</label>
+            <label className="label" htmlFor="item-name">Name</label>
             <input
-              name="page"
+              id="item-name"
               type="text"
-              placeholder="name"
+              placeholder="e.g. Rent"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="category">Category</label>
+            <label className="label" htmlFor="category-select">Category</label>
             <select
               id="category-select"
               value={category}
               onChange={handleChange}
             >
               <option value="" disabled>
-                --Please choose a category--
+                Choose a category
               </option>
               {Object.keys(categories).map((cat, index) => (
                 <option key={index} value={cat}>
@@ -91,29 +92,36 @@ function Modal({ closeModal, saveEditedItem, itemToEdit, remainingBudget }) {
             </select>
           </div>
           <div className="form-group">
-            <label htmlFor="amount">Amount</label>
+            <label className="label" htmlFor="amount">Amount</label>
             <input
+              id="amount"
               type="number"
               min="0"
               max={remainingBudget}
               step="0.01"
+              placeholder="$ 0.00"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="isFixed">Is Fixed</label>
+          <div className="form-group checkbox-row">
             <input
               key={itemToEdit?.id || "new-item"}
+              id="isFixed"
               type="checkbox"
               checked={isFixed}
               onChange={handleCheckBoxChange}
             />
-            </div>
+            <label htmlFor="isFixed">Fixed amount each month</label>
+          </div>
+          <div className="modal-actions">
+            <button type="button" className="btn btn-ghost" onClick={closeModal}>
+              Cancel
+            </button>
             <button type="submit" className="btn">
               Save
             </button>
-          
+          </div>
         </form>
       </div>
     </div>

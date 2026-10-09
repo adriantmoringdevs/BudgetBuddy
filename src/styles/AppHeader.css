@@ -1,0 +1,49 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  height: 97px;
+  padding: 0 64px;
+  border-bottom: 1px solid var(--line);
+}
+
+.app-header-user {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.app-header-name {
+  color: var(--muted);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--marigold);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.btn-sm {
+  padding: 9px 18px;
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    padding: 0 16px;
+    height: 72px;
+  }
+  .app-header .wordmark {
+    font-size: 24px !important;
+  }
+  .app-header-name {
+    display: none;
+  }
+}

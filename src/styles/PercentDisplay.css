@@ -1,26 +1,83 @@
 .percent-display {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-5);
+}
+
+.bucket {
+  border-radius: var(--radius-lg);
+  padding: 22px 26px 22px;
+  color: var(--ink);
+}
+
+.bucket-head {
   display: flex;
-  justify-content: space-around;
-  gap: 1rem;
-  text-align: center;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
 }
 
-.percent-display > div {
-  flex: 1;
-  padding: 0.8rem;
-  border-radius: 10px;
-  font-weight: 600;
-  color: #222;
+.bucket-name {
+  font-size: 16px;
+  font-weight: 700;
 }
 
-.percent-display .needs {
-  background-color: #cfe2ff;
+.bucket-goal {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.8;
 }
 
-.percent-display .wants {
-  background-color: #ffe9b3;
+.bucket-percent {
+  font-size: 30px;
+  line-height: 36px;
 }
 
-.percent-display .savings {
-  background-color: #c8f7dc;
+.bucket-track {
+  margin-top: 12px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(29, 42, 38, 0.1);
+  overflow: hidden;
+}
+
+.bucket-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 0.3s ease;
+}
+
+.bucket-needs {
+  background-color: var(--needs-tint);
+}
+.bucket-needs .bucket-fill {
+  background-color: var(--evergreen);
+}
+
+.bucket-wants {
+  background-color: var(--wants-tint);
+}
+.bucket-wants .bucket-fill {
+  background-color: var(--wants-strong);
+}
+
+.bucket-savings {
+  background-color: var(--evergreen);
+  color: #fff;
+}
+.bucket-savings .bucket-track {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.bucket-savings .bucket-fill {
+  background-color: var(--marigold);
+}
+
+.bucket.over .bucket-fill {
+  background-color: var(--clay);
+}
+
+@media (max-width: 760px) {
+  .percent-display {
+    grid-template-columns: 1fr;
+  }
 }
